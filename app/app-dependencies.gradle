@@ -1,0 +1,36 @@
+apply from: '../dependencies.gradle'
+
+ext.app_module_dependencies = {
+    dependencies {
+        implementation deps.kotlin
+        implementation deps.androidx_appcompat
+        implementation deps.core_ktx
+        implementation deps.constraint_layout
+        // Coroutine
+        implementation deps.coroutine.core
+        implementation deps.coroutine.android
+        // Koin for Android
+        implementation deps.koin.android
+        implementation deps.koin.viewmodel
+        implementation deps.koin.fragment
+        implementation deps.koin.ext
+        // Retrofit
+        implementation deps.retrofit.core
+        implementation deps.retrofit.gson_converter
+        // Lottie
+        implementation deps.lottie
+        // Lifecycle components
+        implementation deps.lifecycle_component.extension
+        kapt deps.lifecycle_component.compiler
+        // Viewmodel
+        implementation deps.viewmodel
+        // Glide
+        implementation deps.glide
+
+        // Junit
+        testImplementation deps.junit.base
+        testImplementation deps.junit.ext
+        // Espresso
+        testImplementation deps.espresso
+    }
+}
