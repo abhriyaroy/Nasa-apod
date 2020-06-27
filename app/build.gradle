@@ -24,10 +24,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 app_module_dependencies()
-
-dependencies {
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-}

@@ -12,6 +12,8 @@ deps.core_ktx = "androidx.core:core-ktx:$KTX_VERSION"
 
 deps.constraint_layout = "androidx.constraintlayout:constraintlayout:$CONSTRAINT_LAYOUT_VERSION"
 
+deps.support_design = "com.android.support:design:$SUPPORT_DESIGN_VERSION"
+
 def coroutine = [:]
 coroutine.core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$COROUTINE_VERSION"
 coroutine.android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$COROUTINE_VERSION"

@@ -6,6 +6,7 @@ ext.app_module_dependencies = {
         implementation deps.androidx_appcompat
         implementation deps.core_ktx
         implementation deps.constraint_layout
+        implementation deps.support_design
         // Coroutine
         implementation deps.coroutine.core
         implementation deps.coroutine.android
