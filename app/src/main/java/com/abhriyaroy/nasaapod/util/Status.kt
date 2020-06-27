@@ -1,4 +1,4 @@
-package com.zebrostudio.movied.viewmodel
+package com.abhriyaroy.nasaapod.util
 
 enum class Status {
     SUCCESS,

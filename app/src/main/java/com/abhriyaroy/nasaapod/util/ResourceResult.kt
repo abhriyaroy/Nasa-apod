@@ -1,7 +1,6 @@
 package com.abhriyaroy.nasaapod.util
 
-import com.zebrostudio.movied.viewmodel.Status
-import com.zebrostudio.movied.viewmodel.Status.*
+import com.abhriyaroy.nasaapod.util.Status.*
 
 data class ResourceResult<out T>(val status: Status, val data: T?, val error: Exception?) {
     companion object {

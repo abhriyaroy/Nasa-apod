@@ -8,7 +8,9 @@ import com.abhriyaroy.nasaapod.data.datasource.remote.PodService
 import com.abhriyaroy.nasaapod.data.datasource.remote.config.NASA_BASE_URL
 import com.abhriyaroy.nasaapod.util.DateUtil
 import com.abhriyaroy.nasaapod.util.Serializer
+import com.abhriyaroy.nasaapod.viewmodel.PodViewModel
 import com.google.gson.GsonBuilder
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.koin.experimental.builder.single
@@ -33,6 +35,7 @@ val networkModule: Module = module {
 }
 
 val viewModelModule: Module = module {
+    viewModel { PodViewModel(get()) }
 }
 
 val uiModule: Module = module {

@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.abhriyaroy.nasaapod.data.datasource.remote.PodRemoteDataSource
 import com.abhriyaroy.nasaapod.data.entity.PodEntity
+import com.abhriyaroy.nasaapod.exception.NoInternetException
 import com.abhriyaroy.nasaapod.exception.PodFetchException
 import com.abhriyaroy.nasaapod.util.DateUtil
 import com.abhriyaroy.nasaapod.util.ResourceResult
-import com.zebrostudio.movied.exception.NoInternetException
 import java.net.UnknownHostException
 
 

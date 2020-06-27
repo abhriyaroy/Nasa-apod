@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Nasa APOD</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="failed_to_load_pod">Failed to load photo of the day</string>
+    <string name="retry">Retry</string>
+    <string name="something_went_wrong">Something went wrong</string>
 </resources>
