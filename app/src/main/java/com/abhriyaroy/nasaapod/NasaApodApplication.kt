@@ -1,10 +1,7 @@
 package com.abhriyaroy.nasaapod
 
 import android.app.Application
-import com.abhriyaroy.nasaapod.di.dataModule
-import com.abhriyaroy.nasaapod.di.networkModule
-import com.abhriyaroy.nasaapod.di.uiModule
-import com.abhriyaroy.nasaapod.di.viewModelModule
+import com.abhriyaroy.nasaapod.di.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -15,7 +12,7 @@ class NasaApodApplication : Application() {
     }
 
     private fun initKoin() {
-        val moduleList = listOf(dataModule, networkModule, viewModelModule, uiModule)
+        val moduleList = listOf(dataModule, networkModule, viewModelModule, uiModule, utilModule)
         startKoin {
             androidContext(this@NasaApodApplication)
             modules(moduleList)
