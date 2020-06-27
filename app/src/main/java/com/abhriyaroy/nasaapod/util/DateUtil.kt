@@ -5,7 +5,7 @@ import java.util.*
 
 open class DateUtil {
 
-    private val yearMonthDayDateFormat = "yyyy-mm-dd"
+    private val yearMonthDayDateFormat = "yyyy-MM-dd"
 
     fun getTodayDate(): String {
         val sdf = SimpleDateFormat(yearMonthDayDateFormat)

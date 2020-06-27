@@ -4,17 +4,25 @@ import com.google.gson.annotations.SerializedName
 
 data class PodEntity(
     @SerializedName("date")
-    val date : String,
+    val date: String,
     @SerializedName("explanation")
-    val explanation : String,
+    val description: String,
     @SerializedName("hdurl")
-    val optionalAssetUrl : String?,
+    val optionalAssetUrl: String?,
     @SerializedName("media_type")
-    val mediaType : String,
+    private val _mediaType: String,
     @SerializedName("service_version")
-    val service : String,
+    val service: String,
     @SerializedName("title")
-    val title : String,
+    val title: String,
     @SerializedName("url")
-    val mediaUrl : String
-)
+    val mediaUrl: String
+) {
+    val mediaType: MediaType
+        get() = MediaType.valueOf(_mediaType.toUpperCase())
+}
+
+enum class MediaType {
+    IMAGE,
+    VIDEO
+}

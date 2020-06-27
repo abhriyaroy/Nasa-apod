@@ -9,18 +9,24 @@ import androidx.lifecycle.Observer
 import com.abhriyaroy.nasaapod.R
 import com.abhriyaroy.nasaapod.data.entity.PodEntity
 import com.abhriyaroy.nasaapod.databinding.FragmentLoadingBinding
+import com.abhriyaroy.nasaapod.ui.BaseFragment
+import com.abhriyaroy.nasaapod.ui.apod.APOD_FRAGMENT_NAME
+import com.abhriyaroy.nasaapod.ui.apod.ApodFragment
 import com.abhriyaroy.nasaapod.util.Status.*
 import com.abhriyaroy.nasaapod.viewmodel.PodViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_loading.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class LoadingFragment : Fragment() {
+const val LOADING_FRAGMENT_NAME = "LoadingFragment"
+
+class LoadingFragment : BaseFragment() {
 
     private var _binding: FragmentLoadingBinding? = null
     private val binding get() = _binding!!
-    private lateinit var date: String
+    private lateinit var dateToLoadPodFor: String
     private val podViewModel: PodViewModel by sharedViewModel()
+    private val podDateKey = "pod_date"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,13 +38,18 @@ class LoadingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        parseArgs()
         observePodData()
-        podViewModel.getPod(date)
+        podViewModel.getPod(dateToLoadPodFor)
     }
 
     override fun onDestroy() {
         _binding = null
         super.onDestroy()
+    }
+
+    private fun parseArgs() {
+        dateToLoadPodFor = requireArguments().getString(podDateKey)!!
     }
 
     private fun observePodData() {
@@ -52,13 +63,13 @@ class LoadingFragment : Fragment() {
     }
 
     private fun showPodData(podEntity: PodEntity) {
-        println("show pod data $podEntity")
+        showScreen(ApodFragment.newInstance(podEntity), APOD_FRAGMENT_NAME)
     }
 
     private fun showErrorMessageWithRetryOption() {
         Snackbar.make(coordinatorSplash, R.string.failed_to_load_pod, Snackbar.LENGTH_INDEFINITE)
             .apply {
-                setAction(R.string.retry) { podViewModel.getPod(date) }
+                setAction(R.string.retry) { podViewModel.getPod(dateToLoadPodFor) }
                 show()
             }
     }
@@ -66,7 +77,9 @@ class LoadingFragment : Fragment() {
     companion object {
         fun newInstance(date: String = "") =
             LoadingFragment().apply {
-                this.date = date
+                arguments = Bundle().apply {
+                    putString(podDateKey, date)
+                }
             }
     }
 }

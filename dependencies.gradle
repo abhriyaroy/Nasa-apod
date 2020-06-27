@@ -42,6 +42,10 @@ deps.viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$VIEWMODEL_VERSION"
 
 deps.glide = "com.github.bumptech.glide:glide:$GLIDE_VERSION"
 
+deps.multidex = "androidx.multidex:multidex:$MULTI_DEX_VERSION"
+
+deps.youtube_player = "com.pierfrancescosoffritti.androidyoutubeplayer:core:$YOUTUBE_PLAYER_VESION"
+
 def junit = [:]
 junit.base = "junit:junit:$JUNIT_VERSION"
 junit.ext = "androidx.test.ext:junit:$JUNIT_EXTENSION_VERSION"

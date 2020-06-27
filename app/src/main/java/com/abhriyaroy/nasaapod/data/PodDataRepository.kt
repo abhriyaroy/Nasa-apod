@@ -8,6 +8,7 @@ import com.abhriyaroy.nasaapod.exception.NoInternetException
 import com.abhriyaroy.nasaapod.exception.PodFetchException
 import com.abhriyaroy.nasaapod.util.DateUtil
 import com.abhriyaroy.nasaapod.util.ResourceResult
+import java.lang.Exception
 import java.net.UnknownHostException
 
 
@@ -21,7 +22,7 @@ class PodDataRepositoryImpl(
 ) : PodDataRepository {
 
     override suspend fun getPod(date: String): LiveData<ResourceResult<PodEntity>> {
-        val resolvedDate = getResolvedDate()
+        val resolvedDate = getResolvedDate(date)
         return MutableLiveData<ResourceResult<PodEntity>>().let { mutableLiveData ->
             try {
                 with(podRemoteDataSource.getPod(resolvedDate)) {
@@ -34,6 +35,8 @@ class PodDataRepositoryImpl(
                 }
             } catch (e: UnknownHostException) {
                 mutableLiveData.value = ResourceResult.error(NoInternetException())
+            } catch (e : Exception){
+                e.printStackTrace()
             }
             mutableLiveData
         }

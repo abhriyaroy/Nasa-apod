@@ -27,6 +27,8 @@ ext.app_module_dependencies = {
         implementation deps.viewmodel
         // Glide
         implementation deps.glide
+        // Exo player
+        implementation deps.youtube_player
 
         // Junit
         testImplementation deps.junit.base

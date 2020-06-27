@@ -7,6 +7,8 @@ import com.abhriyaroy.nasaapod.data.datasource.remote.PodRemoteDataSourceImpl
 import com.abhriyaroy.nasaapod.data.datasource.remote.PodService
 import com.abhriyaroy.nasaapod.data.datasource.remote.config.NASA_BASE_URL
 import com.abhriyaroy.nasaapod.util.DateUtil
+import com.abhriyaroy.nasaapod.util.ImageLoader
+import com.abhriyaroy.nasaapod.util.ImageLoaderImpl
 import com.abhriyaroy.nasaapod.util.Serializer
 import com.abhriyaroy.nasaapod.viewmodel.PodViewModel
 import com.google.gson.GsonBuilder
@@ -38,12 +40,10 @@ val viewModelModule: Module = module {
     viewModel { PodViewModel(get()) }
 }
 
-val uiModule: Module = module {
-}
-
 val utilModule: Module = module {
     single<Serializer>()
     single<DateUtil>()
+    single<ImageLoader> { ImageLoaderImpl() }
 }
 
 

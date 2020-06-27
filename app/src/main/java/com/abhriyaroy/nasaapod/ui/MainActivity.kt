@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
     private fun showLoadingFragment() {
         supportFragmentManager.beginTransaction()
             .apply {
-                replace(binding.rootFragmentHolder.id, LoadingFragment.newInstance())
+                replace(binding.rootFragmentHolder.id, LoadingFragment.newInstance("2020-06-16"))
                 commit()
             }
     }
