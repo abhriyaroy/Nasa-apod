@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.abhriyaroy.nasaapod.R
 import com.abhriyaroy.nasaapod.data.entity.PodEntity
@@ -17,6 +16,7 @@ import com.abhriyaroy.nasaapod.viewmodel.PodViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_loading.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import kotlin.system.exitProcess
 
 const val LOADING_FRAGMENT_NAME = "LoadingFragment"
 
@@ -46,6 +46,10 @@ class LoadingFragment : BaseFragment() {
     override fun onDestroy() {
         _binding = null
         super.onDestroy()
+    }
+
+    override fun handleBackPress() {
+        exitProcess(1)
     }
 
     private fun parseArgs() {

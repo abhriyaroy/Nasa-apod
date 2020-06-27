@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.abhriyaroy.nasaapod.R
 import com.abhriyaroy.nasaapod.data.entity.MediaType.IMAGE
 import com.abhriyaroy.nasaapod.data.entity.MediaType.VIDEO
 import com.abhriyaroy.nasaapod.data.entity.PodEntity
 import com.abhriyaroy.nasaapod.databinding.FragmentApodBinding
+import com.abhriyaroy.nasaapod.ui.BaseFragment
 import com.abhriyaroy.nasaapod.util.ImageLoader
 import com.abhriyaroy.nasaapod.util.Serializer
 import com.abhriyaroy.nasaapod.util.drawableRes
@@ -21,7 +21,7 @@ import org.koin.android.ext.android.inject
 
 const val APOD_FRAGMENT_NAME = "ApodFragment"
 
-class ApodFragment : Fragment() {
+class ApodFragment : BaseFragment() {
 
     private val serializer: Serializer by inject()
     private val imageLoader: ImageLoader by inject()
@@ -30,6 +30,7 @@ class ApodFragment : Fragment() {
     private lateinit var podEntity: PodEntity
     private var _binding: FragmentApodBinding? = null
     private var videoPlayer: YouTubePlayer? = null
+    private var isInFullScreenMode = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,6 +50,14 @@ class ApodFragment : Fragment() {
     override fun onDestroy() {
         _binding = null
         super.onDestroy()
+    }
+
+    override fun handleBackPress() {
+        if (isInFullScreenMode) {
+            handleFullScreenModeBackPress()
+        } else {
+            showPreviosuScreen()
+        }
     }
 
     private fun parseArgs() {
@@ -98,9 +107,10 @@ class ApodFragment : Fragment() {
 
     private fun attachClickListener() {
         binding.assetActionButtonWrapper.setOnClickListener {
+            isInFullScreenMode = true
             when (podEntity.mediaType) {
                 IMAGE -> {
-                   animateViewsOutOfScreen()
+                    animateViewsOutOfScreen()
                 }
                 VIDEO -> {
                     animateViewsOutOfScreen()
@@ -111,18 +121,31 @@ class ApodFragment : Fragment() {
         }
     }
 
-    private fun animateViewsOutOfScreen(){
+    private fun animateViewsOutOfScreen() {
         binding.titleTextView.animate().translationY(-1000f)
         binding.calendarWrapperView.animate().translationY(-1000f)
         binding.descriptionTextView.animate().translationY(10000f)
         binding.assetActionButtonWrapper.animate().translationY(1000f)
     }
 
-    private fun animateViewsBackToOriginalPosition(){
+    private fun animateViewsBackToOriginalPosition() {
         binding.titleTextView.animate().translationY(0f)
         binding.calendarWrapperView.animate().translationY(0f)
         binding.descriptionTextView.animate().translationY(0f)
         binding.assetActionButtonWrapper.animate().translationY(0f)
+    }
+
+    private fun handleFullScreenModeBackPress() {
+        isInFullScreenMode = false
+        animateViewsBackToOriginalPosition()
+        when (podEntity.mediaType) {
+            IMAGE -> {
+            }
+            VIDEO -> {
+                videoPlayer?.pause()
+                binding.assetVideoPlayer.exitFullScreen()
+            }
+        }
     }
 
     companion object {

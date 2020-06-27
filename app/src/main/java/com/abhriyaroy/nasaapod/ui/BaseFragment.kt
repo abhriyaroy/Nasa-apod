@@ -3,7 +3,7 @@ package com.abhriyaroy.nasaapod.ui
 import androidx.fragment.app.Fragment
 import com.abhriyaroy.nasaapod.R
 
-open class BaseFragment : Fragment(){
+abstract class BaseFragment : Fragment(){
 
     protected fun showScreen(fragment: Fragment, fragmentName: String) {
         activity?.supportFragmentManager
@@ -12,5 +12,11 @@ open class BaseFragment : Fragment(){
             ?.addToBackStack(fragmentName)
             ?.commit()
     }
+
+    protected fun showPreviosuScreen(){
+        activity?.supportFragmentManager?.popBackStack()
+    }
+
+    abstract fun handleBackPress()
 
 }

@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.abhriyaroy.nasaapod.databinding.ActivityMainBinding
 import com.abhriyaroy.nasaapod.ui.loading.LoadingFragment
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -13,6 +13,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         bindLayout()
         showLoadingFragment()
+    }
+
+    override fun onBackPressed() {
+        (getFragmentAtStackTop() as BaseFragment).handleBackPress()
     }
 
     private fun bindLayout() {
@@ -23,7 +27,7 @@ class MainActivity : AppCompatActivity() {
     private fun showLoadingFragment() {
         supportFragmentManager.beginTransaction()
             .apply {
-                replace(binding.rootFragmentHolder.id, LoadingFragment.newInstance("2020-06-16"))
+                replace(binding.rootFragmentHolder.id, LoadingFragment.newInstance())
                 commit()
             }
     }
