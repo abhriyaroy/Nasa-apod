@@ -1,19 +1,21 @@
 package com.abhriyaroy.nasaapod.ui.apod
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.DatePicker
 import com.abhriyaroy.nasaapod.R
 import com.abhriyaroy.nasaapod.data.entity.MediaType.IMAGE
 import com.abhriyaroy.nasaapod.data.entity.MediaType.VIDEO
 import com.abhriyaroy.nasaapod.data.entity.PodEntity
 import com.abhriyaroy.nasaapod.databinding.FragmentApodBinding
 import com.abhriyaroy.nasaapod.ui.BaseFragment
-import com.abhriyaroy.nasaapod.util.ImageLoader
-import com.abhriyaroy.nasaapod.util.Serializer
-import com.abhriyaroy.nasaapod.util.drawableRes
-import com.abhriyaroy.nasaapod.util.visible
+import com.abhriyaroy.nasaapod.ui.loading.LOADING_FRAGMENT_NAME
+import com.abhriyaroy.nasaapod.ui.loading.LoadingFragment
+import com.abhriyaroy.nasaapod.util.*
+import com.abhriyaroy.nasaapod.util.VideoUrlUtil.getYoutubeVideoIdFromUrl
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import org.koin.android.ext.android.inject
@@ -21,13 +23,15 @@ import org.koin.android.ext.android.inject
 
 const val APOD_FRAGMENT_NAME = "ApodFragment"
 
-class ApodFragment : BaseFragment() {
+class ApodFragment : BaseFragment(), DatePickerDialog.OnDateSetListener {
 
     private val serializer: Serializer by inject()
     private val imageLoader: ImageLoader by inject()
+    private val dateUtil: DateUtil by inject()
     private val apodDataKey = "apod_data"
     private val binding get() = _binding!!
     private lateinit var podEntity: PodEntity
+    private lateinit var datePickerDialog: DatePickerDialog
     private var _binding: FragmentApodBinding? = null
     private var videoPlayer: YouTubePlayer? = null
     private var isInFullScreenMode = false
@@ -58,6 +62,10 @@ class ApodFragment : BaseFragment() {
         } else {
             showPreviosuScreen()
         }
+    }
+
+    override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
+        showScreen(LoadingFragment.newInstance("$year-$month-$dayOfMonth"), LOADING_FRAGMENT_NAME)
     }
 
     private fun parseArgs() {
@@ -99,13 +107,22 @@ class ApodFragment : BaseFragment() {
     }
 
     private fun getVideoIdFromUrl(): String {
-        return podEntity.mediaUrl.split("/").let {
-            it[it.size - 1].split("?")[0]
-
-        }
+        return getYoutubeVideoIdFromUrl(podEntity.mediaUrl)
     }
 
     private fun attachClickListener() {
+        setCalendarButtonClickListener()
+        setAssetActionButtonClickListener()
+    }
+
+    private fun setCalendarButtonClickListener() {
+        initDatePicker()
+        binding.calendarWrapperView.setOnClickListener {
+            datePickerDialog.show()
+        }
+    }
+
+    private fun setAssetActionButtonClickListener() {
         binding.assetActionButtonWrapper.setOnClickListener {
             isInFullScreenMode = true
             when (podEntity.mediaType) {
@@ -119,6 +136,18 @@ class ApodFragment : BaseFragment() {
                 }
             }
         }
+    }
+
+    private fun initDatePicker() {
+        datePickerDialog = DatePickerDialog(
+            requireContext(),
+            this,
+            dateUtil.getTodayYear().toInt(),
+            dateUtil.getTodayMonth().toInt(),
+            dateUtil.getTodayDay().toInt()
+        )
+        datePickerDialog.datePicker.maxDate = dateUtil.getTodayDateInMillis()
+        datePickerDialog.datePicker.minDate = dateUtil.getMinDatePickerDatInMillis()
     }
 
     private fun animateViewsOutOfScreen() {
