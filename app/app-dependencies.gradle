@@ -32,8 +32,11 @@ ext.app_module_dependencies = {
 
         // Junit
         testImplementation deps.junit.base
-        testImplementation deps.junit.ext
         // Espresso
         testImplementation deps.espresso
+        // Mockito
+        testImplementation deps.mockito
+        // Lifecycle component
+        testImplementation deps.lifecycle_component.test_helper
     }
 }

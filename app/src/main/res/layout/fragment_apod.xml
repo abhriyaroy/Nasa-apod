@@ -17,8 +17,8 @@
         android:id="@+id/assetVideoPlayer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:autoPlay="false"
         android:visibility="gone"
+        app:autoPlay="false"
         app:showFullScreenButton="false" />
 
     <TextView
@@ -57,17 +57,22 @@
 
     </androidx.cardview.widget.CardView>
 
-    <TextView
-        android:id="@+id/descriptionTextView"
+    <ScrollView
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="200dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="16dp"
-        android:textColor="@color/white"
-        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@id/assetActionButtonWrapper"
         app:layout_constraintEnd_toStartOf="@id/calendarWrapperView"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/descriptionTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+    </ScrollView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/assetActionButtonWrapper"

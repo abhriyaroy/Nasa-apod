@@ -8,9 +8,11 @@ import androidx.lifecycle.Observer
 import com.abhriyaroy.nasaapod.R
 import com.abhriyaroy.nasaapod.data.entity.PodEntity
 import com.abhriyaroy.nasaapod.databinding.FragmentLoadingBinding
+import com.abhriyaroy.nasaapod.exception.NoInternetException
 import com.abhriyaroy.nasaapod.ui.BaseFragment
 import com.abhriyaroy.nasaapod.ui.apod.APOD_FRAGMENT_NAME
 import com.abhriyaroy.nasaapod.ui.apod.ApodFragment
+import com.abhriyaroy.nasaapod.util.ResourceResult
 import com.abhriyaroy.nasaapod.util.Status.*
 import com.abhriyaroy.nasaapod.viewmodel.PodViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -57,17 +59,25 @@ class LoadingFragment : BaseFragment() {
     }
 
     private fun observePodData() {
-        podViewModel.podResultData.observe(viewLifecycleOwner, Observer { movies ->
-            when (movies.status) {
+        podViewModel.podResultData.observe(viewLifecycleOwner, Observer { pod ->
+            when (pod.status) {
                 LOADING -> binding.lottieView.playAnimation()
-                SUCCESS -> showPodData(movies.data!!)
-                ERROR -> showErrorMessageWithRetryOption()
+                SUCCESS -> showPodData(pod.data!!)
+                ERROR -> handleErrorState(pod)
             }
         })
     }
 
     private fun showPodData(podEntity: PodEntity) {
         showScreen(ApodFragment.newInstance(podEntity), APOD_FRAGMENT_NAME)
+    }
+
+    private fun handleErrorState(result: ResourceResult<PodEntity>) {
+        if (result.error is NoInternetException) {
+            showErrorMessageWithRetryOption()
+        } else {
+            showGenericError()
+        }
     }
 
     private fun showErrorMessageWithRetryOption() {
@@ -78,11 +88,19 @@ class LoadingFragment : BaseFragment() {
             }
     }
 
+    private fun showGenericError() {
+        Snackbar.make(coordinatorSplash, R.string.something_went_wrong, Snackbar.LENGTH_INDEFINITE)
+    }
+
     companion object {
-        fun newInstance(date: String = "") =
+        fun newInstance(year: Int? = null, month: Int? = null, dayOfMonth: Int? = null) =
             LoadingFragment().apply {
                 arguments = Bundle().apply {
-                    putString(podDateKey, date)
+                    if (year != null && month != null && dayOfMonth != null) {
+                        putString(podDateKey, "$year-$month-$dayOfMonth")
+                    } else {
+                        putString(podDateKey, "")
+                    }
                 }
             }
     }

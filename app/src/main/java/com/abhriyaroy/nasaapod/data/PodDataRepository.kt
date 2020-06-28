@@ -35,8 +35,6 @@ class PodDataRepositoryImpl(
                 }
             } catch (e: UnknownHostException) {
                 mutableLiveData.value = ResourceResult.error(NoInternetException())
-            } catch (e : Exception){
-                e.printStackTrace()
             }
             mutableLiveData
         }

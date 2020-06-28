@@ -36,6 +36,7 @@ deps.lottie = "com.airbnb.android:lottie:$LOTTIE_VERSION"
 def lifecycle_component = [:]
 lifecycle_component.extension = "android.arch.lifecycle:extensions:$LIFECYCLE_VERSION"
 lifecycle_component.compiler = "android.arch.lifecycle:compiler:$LIFECYCLE_VERSION"
+lifecycle_component.test_helper = "android.arch.core:core-testing:$LIFECYCLE_VERSION"
 deps.lifecycle_component = lifecycle_component
 
 deps.viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$VIEWMODEL_VERSION"
@@ -52,5 +53,7 @@ junit.ext = "androidx.test.ext:junit:$JUNIT_EXTENSION_VERSION"
 deps.junit = junit
 
 deps.espresso = "androidx.test.espresso:espresso-core:$ESPRESSO_CORE_VERSION"
+
+deps.mockito = "org.mockito:mockito-core:$MOCKITO_VERSION"
 
 ext.deps = deps

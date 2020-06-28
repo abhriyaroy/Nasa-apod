@@ -65,7 +65,8 @@ class ApodFragment : BaseFragment(), DatePickerDialog.OnDateSetListener {
     }
 
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-        showScreen(LoadingFragment.newInstance("$year-$month-$dayOfMonth"), LOADING_FRAGMENT_NAME)
+        // We need to add 1 as datepicker in android starts counting month from 0
+        showScreen(LoadingFragment.newInstance(year, month + 1, dayOfMonth), LOADING_FRAGMENT_NAME)
     }
 
     private fun parseArgs() {
