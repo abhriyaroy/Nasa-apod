@@ -4,7 +4,7 @@ import com.abhriyaroy.nasaapod.data.entity.PodEntity
 import java.util.UUID.randomUUID
 
 object PodEntityFactory {
-    fun getMoviePodEntity() = PodEntity(
+    fun getVideoPodEntity() = PodEntity(
         randomUUID().toString(),
         randomUUID().toString(),
         randomUUID().toString(),

@@ -13,7 +13,7 @@ import java.net.UnknownHostException
 
 
 interface PodDataRepository {
-    suspend fun getPod(date: String = ""): LiveData<ResourceResult<PodEntity>>
+    suspend fun getPod(date: String): LiveData<ResourceResult<PodEntity>>
 }
 
 class PodDataRepositoryImpl(

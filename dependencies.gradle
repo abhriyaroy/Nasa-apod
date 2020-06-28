@@ -17,6 +17,7 @@ deps.support_design = "com.android.support:design:$SUPPORT_DESIGN_VERSION"
 def coroutine = [:]
 coroutine.core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$COROUTINE_VERSION"
 coroutine.android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$COROUTINE_VERSION"
+coroutine.test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$COROUTINE_VERSION"
 deps.coroutine = coroutine
 
 def koin = [:]

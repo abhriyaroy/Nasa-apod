@@ -8,8 +8,8 @@ ext.app_module_dependencies = {
         implementation deps.constraint_layout
         implementation deps.support_design
         // Coroutine
-        implementation deps.coroutine.core
         implementation deps.coroutine.android
+        implementation deps.coroutine.core
         // Koin for Android
         implementation deps.koin.android
         implementation deps.koin.viewmodel
@@ -38,5 +38,8 @@ ext.app_module_dependencies = {
         testImplementation deps.mockito
         // Lifecycle component
         testImplementation deps.lifecycle_component.test_helper
+        // Coroutine test
+        testImplementation deps.coroutine.test
+
     }
 }

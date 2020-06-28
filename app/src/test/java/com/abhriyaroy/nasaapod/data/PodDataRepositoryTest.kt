@@ -23,11 +23,8 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.verify
-import org.mockito.invocation.InvocationOnMock
 import org.mockito.junit.MockitoJUnitRunner
-import org.mockito.stubbing.Answer
 import retrofit2.Response
-import java.lang.Exception
 import java.net.UnknownHostException
 import java.util.UUID.randomUUID
 
@@ -69,7 +66,7 @@ class PodDataRepositoryTest {
     fun `should return movie type pod entity of passed date wrapped in success result type on getPod call success`() {
         runBlocking {
             val date = randomUUID().toString()
-            val resultPod = PodEntityFactory.getMoviePodEntity()
+            val resultPod = PodEntityFactory.getVideoPodEntity()
             `when`(podRemoteDataSource.getPod(date)).thenReturn(Response.success(resultPod))
 
             val obtainedResult = podDateRepository.getPod(date)
@@ -88,7 +85,7 @@ class PodDataRepositoryTest {
             `when`(dateUtil.getTodayDate()).thenReturn(date)
             `when`(podRemoteDataSource.getPod(date)).thenReturn(Response.success(resultPod))
 
-            val obtainedResult = podDateRepository.getPod()
+            val obtainedResult = podDateRepository.getPod("")
 
             assertTrue(obtainedResult.value!!.status == Status.SUCCESS)
             assertEquals(ResourceResult.success(resultPod), obtainedResult.value)
@@ -101,11 +98,11 @@ class PodDataRepositoryTest {
     fun `should return movie type pod entity of current date wrapped in success result type on getPod call success date is not passed`() {
         runBlocking {
             val date = randomUUID().toString()
-            val resultPod = PodEntityFactory.getMoviePodEntity()
+            val resultPod = PodEntityFactory.getVideoPodEntity()
             `when`(dateUtil.getTodayDate()).thenReturn(date)
             `when`(podRemoteDataSource.getPod(date)).thenReturn(Response.success(resultPod))
 
-            val obtainedResult = podDateRepository.getPod()
+            val obtainedResult = podDateRepository.getPod("")
 
             assertTrue(obtainedResult.value!!.status == Status.SUCCESS)
             assertEquals(ResourceResult.success(resultPod), obtainedResult.value)
@@ -149,7 +146,7 @@ class PodDataRepositoryTest {
             )
             `when`(dateUtil.getTodayDate()).thenReturn(date)
 
-            val result = podDateRepository.getPod()
+            val result = podDateRepository.getPod("")
 
             assertTrue(result.value!!.status == Status.ERROR)
             assertTrue(result.value!!.error is PodFetchException)
@@ -179,7 +176,7 @@ class PodDataRepositoryTest {
             given(podRemoteDataSource.getPod(date)).willThrow(UnknownHostException())
             `when`(dateUtil.getTodayDate()).thenReturn(date)
 
-            val result = podDateRepository.getPod()
+            val result = podDateRepository.getPod("")
 
             assertTrue(result.value!!.status == Status.ERROR)
             assertTrue(result.value!!.error is NoInternetException)
